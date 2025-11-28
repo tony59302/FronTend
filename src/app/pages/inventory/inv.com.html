@@ -1,0 +1,21 @@
+<h2>Inventario del Laboratorio</h2>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Equipo</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+  </tr>
+
+  <tr *ngFor="let item of equipos">
+    <td>{{ item.id }}</td>
+    <td>{{ item.nombre }}</td>
+    <td>
+      <span [class]="item.estado.toLowerCase()">{{ item.estado }}</span>
+    </td>
+    <td>
+      <button class="btn" routerLink="/editar/{{item.id}}">Editar</button>
+    </td>
+  </tr>
+</table>

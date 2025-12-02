@@ -5,8 +5,8 @@ import { EditEquipmentComponent } from './pages/edit-equipment/edit-equipment.co
 import { LoginComponent } from './pages/login/login';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: '', component: InventoryComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'inventory', component: InventoryComponent },
   { path: 'agregar', component: AddEquipmentComponent },
   { path: 'editar/:id', component: EditEquipmentComponent }
 ];

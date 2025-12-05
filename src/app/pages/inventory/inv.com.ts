@@ -1,25 +1,36 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ItemsService, Item } from '../../services/items.service';
 
 @Component({
-  selector: 'app-inventory',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './inv.com.html',
-  styleUrls: ['./inv.com.css']
+  selector: 'app-inventario',
+  templateUrl: './inv.com.html'
 })
-export class InventoryComponent {
+export class InventarioComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  items: Item[] = [];
 
-  equipos = [
-    { id: 1, nombre: "Microscopio", estado: "Disponible" },
-    { id: 2, nombre: "Cautín", estado: "En uso" },
-    { id: 3, nombre: "Osciloscopio", estado: "Dañado" }
-  ];
+  constructor(private itemsService: ItemsService) {}
 
-  irAgregar() {
-    this.router.navigate(['/agregar']);
+  ngOnInit(): void {
+    this.cargarItems();
   }
+
+  cargarItems() {
+    this.itemsService.getItems().subscribe({
+      next: (data) => (this.items = data),
+      error: (err) => console.error('Error cargando items:', err)
+    });
+  }
+  eliminarItem(id: number) {
+  if (!confirm('¿Seguro que deseas eliminar este item?')) return;
+
+  this.itemsService.deleteItem(id).subscribe({
+    next: () => {
+      this.items = this.items.filter(i => i.id !== id);
+    },
+    error: (err) => console.error('Error al eliminar:', err)
+  });
 }
+
+}
+

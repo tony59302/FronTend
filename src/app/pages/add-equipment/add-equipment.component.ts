@@ -1,27 +1,33 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ItemsService } from '../../services/items.service';
 
 @Component({
-  selector: 'app-add-equipment',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './add-equipment.component.html',
-  styleUrls: ['./add-equipment.component.css']
+  selector: 'app-agregar-item',
+  templateUrl: './add-equipment.component.html'
 })
-export class AddEquipmentComponent {
+export class AgregarItemComponent {
 
-  nuevoEquipo = {
-    nombre: '',
-    estado: '',
-    descripcion: ''
-  };
+  nombre = '';
+  categoria = '';
+  estado = '';
+  descripcion = '';
 
-  constructor(private router: Router) {}
+  constructor(private itemsService: ItemsService) {}
 
-  agregarEquipo() {
-    console.log("Equipo agregado:", this.nuevoEquipo);
+  guardar() {
+    const data = {
+      nombre: this.nombre,
+      categoria: this.categoria,
+      estado: this.estado,
+      descripcion: this.descripcion,
+    };
 
-    this.router.navigate(['/inventory']);
+    this.itemsService.createItem(data).subscribe({
+      next: (res) => {
+        console.log('Item creado:', res);
+        alert('Item agregado correctamente');
+      },
+      error: (err) => console.error('Error al agregar:', err)
+    });
   }
 }
